@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "lint:js": "eslint --ignore-path .gitignore .",
+    "lint": "yarn lint:js",
+    "prettier:check": "prettier --ignore-path .gitignore --check ."
+  },
+  "name": "postcss-relative-rem",
+  "version": "0.1.0",
+  "description": "A postcss plugin to convert rem units to units relative a CSS variable.",
+  "main": "index.js",
+  "repository": "https://github.com/GUI/postcss-relative-rem",
+  "author": "Nick Muerdter <12112+GUI@users.noreply.github.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "postcss": "^8.4.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "postcss": "^8.4.6",
+    "prettier": "^2.5.1"
+  }
+}

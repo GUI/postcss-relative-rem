@@ -57,22 +57,36 @@ The `--rem-relative-base` CSS variable must then also be defined in some way:
 For a more concrete example of how this plugin can be used to dynamically deal with a shadow DOM component being injected into an unknown page (with variable root font size definitions), here's how you could set the `--rem-relative-base` CSS variable based on the component's inherited font size (instead of the root `<html>` font size):
 
 ```js
+// Grab the container and setup the shadow DOM.
 const containerEl = document.querySelector(".my-shadow-dom-container");
 containerEl.attachShadow({ mode: "open" });
 
+// Note: If the container will set its own font size or reset things, make sure
+// this style is in place before the following font size calculations (if this
+// is applied later by a stylesheet that hasn't yet loaded, then this may cause
+// the calculations to be incorrect).
+containerEl.style.setProperty("all", "initial");
+
+// Determine the root `<html>` font size.
 const rootFontSize = parseFloat(
   window
     .getComputedStyle(document.documentElement)
-    .getPropertyValue("font-size")
-);
-const containerFontSize = parseFloat(
-  window.getComputedStyle(containerEl).getPropertyValue("font-size")
+    .getPropertyValue("font-size"),
 );
 
-containerEl.style.setProperty(
-  "--rem-relative-base",
-  `${containerFontSize / rootFontSize}rem`
+// Determine the font size of the shadow DOM container.
+const containerFontSize = parseFloat(
+  window.getComputedStyle(containerEl).getPropertyValue("font-size"),
 );
+
+// Calculate the relative base font size (to be used by the calculations done
+// by this plugin) based on comparing the root font size to the contianer's
+// font size.
+const remRelativeBaseSize = `${containerFontSize / rootFontSize}rem`;
+
+// Set the CSS variable on the container which will then be used by the calcs()
+// this plugin provides.
+containerEl.style.setProperty("--rem-relative-base", remRelativeBaseSize);
 ```
 
 ## Options
